@@ -22,7 +22,20 @@ class Scanner {
     List<Token> scanTokens() {
         while (!isAtEnd()) {
             // We are at the beginning of the next lexeme.
+
+            System.out.println();
+            System.out.println("====Iteration===");
+
+            System.out.println("====Before Equalizing====");
+            System.out.println(start);
+            System.out.println(current);
+
             start = current;
+
+            System.out.println("====After Equalizing====");
+            System.out.println(start);
+            System.out.println(current);
+
             scanToken();
         }
 
@@ -31,7 +44,13 @@ class Scanner {
     }
 
     private void scanToken() {
+
+        System.out.println("===In scan token===");
+
         char c = advance();
+
+        System.out.println("(scanToken())Character: " + c);
+
         switch (c) {
             case '(':
                 addToken(LEFT_PAREN);
@@ -75,6 +94,24 @@ class Scanner {
             case '>':
                 addToken(match('=') ? GREATER_EQUAL : GREATER);
                 break;
+            case '/':
+                if (match('/')) {
+                    // A comment goes until the end of the line.
+                    while (peek() != '\n' && !isAtEnd())
+                        advance();
+                } else {
+                    addToken(SLASH);
+                }
+                break;
+            case ' ':
+            case '\r':
+            case '\t':
+                // Ignore whitespace.
+                break;
+
+            case '\n':
+                line++;
+                break;
             default:
                 Lox.error(line, "Unexpected character.");
                 break;
@@ -91,12 +128,30 @@ class Scanner {
         return true;
     }
 
+    private char peek() {
+        if (isAtEnd())
+            return '\0';
+        return source.charAt(current);
+    }
+
     private boolean isAtEnd() {
         return current >= source.length();
     }
 
     private char advance() {
-        return source.charAt(current++);
+
+        System.out.println("===In advance()===");
+        System.out.println("Current before: " + current);
+
+        char c = source.charAt(current);
+        current++;
+
+        System.out.println("Character: " + c);
+        System.out.println("Start: " + start);
+        System.out.println("Current: " + current);
+
+        return c;
+        // This works like first add then increment
     }
 
     private void addToken(TokenType type) {
@@ -104,6 +159,11 @@ class Scanner {
     }
 
     private void addToken(TokenType type, Object literal) {
+
+        System.out.println("Add token current: " + current);
+        System.out.println("Addd token start: " + start);
+        System.out.println("Substring: " + (source.substring(start, current)));
+
         String text = source.substring(start, current);
         tokens.add(new Token(type, text, literal, line));
     }
