@@ -119,6 +119,13 @@ class Scanner {
     }
 
     private boolean match(char expected) {
+
+        System.out.println("==Inside match()==");
+        System.out.println("isAtEnd(): " + isAtEnd());
+        System.out.println("Current: " + current);
+        System.out.println("source.charAt(current): " + source.charAt(current));
+        System.out.println("Expected: " + expected);
+
         if (isAtEnd())
             return false;
         if (source.charAt(current) != expected)
@@ -141,12 +148,14 @@ class Scanner {
     private char advance() {
 
         System.out.println("===In advance()===");
+        System.out.println("---");
         System.out.println("Current before: " + current);
 
         char c = source.charAt(current);
         current++;
 
         System.out.println("Character: " + c);
+        System.out.println("---");
         System.out.println("Start: " + start);
         System.out.println("Current: " + current);
 

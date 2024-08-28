@@ -1,1 +1,1 @@
-var variable = 4;
+var variable = 4 / 5; //Comment
