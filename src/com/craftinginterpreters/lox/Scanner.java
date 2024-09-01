@@ -112,10 +112,33 @@ class Scanner {
             case '\n':
                 line++;
                 break;
+            case '"':
+                string();
+                break;
             default:
                 Lox.error(line, "Unexpected character.");
                 break;
         }
+    }
+
+    private void string() {
+        while (peek() != '"' && !isAtEnd()) {
+            if (peek() == '\n')
+                line++;
+            advance();
+        }
+
+        if (isAtEnd()) {
+            Lox.error(line, "Unterminated string.");
+            return;
+        }
+
+        // The closing ".
+        advance();
+
+        // Trim the surrounding quotes.
+        String value = source.substring(start + 1, current - 1);
+        addToken(STRING, value);
     }
 
     private boolean match(char expected) {
@@ -136,8 +159,19 @@ class Scanner {
     }
 
     private char peek() {
-        if (isAtEnd())
+
+        System.out.println("===Inside peek(): ===");
+
+        if (isAtEnd()) {
+
+            System.out.println("isEnd = True() || return \0");
+
             return '\0';
+        }
+
+        System.out.println("Current peek(): " + current);
+        System.out.println("Character peek(): " + (source.charAt(current)));
+
         return source.charAt(current);
     }
 
