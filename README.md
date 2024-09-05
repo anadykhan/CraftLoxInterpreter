@@ -24,3 +24,5 @@ The `JAVA PROJECTS` view allows you to manage your dependencies. More details ca
     2. Operations: Adding types is a problem where you have to define every operation for a specific type
 ## The Visitor pattern:
     It allows you to extend operations without modifying or writing a unique code for the existing classes, by introducing a new layer of abstraction. Now I can add operations without changing the code and adding every operation to a single type is not necessary. 
+## Pretty Printing:
+    Converting a tree to a string is sort of the opposite of a parser, and is often called “pretty printing” when the goal is to produce a string of text that is valid syntax in the source language.
